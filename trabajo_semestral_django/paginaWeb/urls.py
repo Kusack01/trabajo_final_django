@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tienda/', include('tienda.urls'))
+    path('', include('tienda.urls')),  # Asegúrate de que 'tienda' es el nombre correcto de tu aplicación
 ]
+

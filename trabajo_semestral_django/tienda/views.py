@@ -62,9 +62,15 @@ def ofertas(request):
     context={}
     return render(request, 'tienda/ofertas.html', context)
 
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def perfil(request):
-    context={}
-    return render(request, 'tienda/perfil.html', context)
+    # Lógica de la vista
+    return render(request, 'tienda/perfil.html')
+
+# Aplica el decorador a otras vistas según sea necesario
+
 
 def registro(request):
     context={}

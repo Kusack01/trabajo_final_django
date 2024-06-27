@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tienda',
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'autenticacion',  # Agrega esta línea
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -120,8 +124,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'tienda', 'statics')]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'  # Para redirigir a la página de inicio después de iniciar sesión
+LOGOUT_REDIRECT_URL = '/autenticacion/login/'  # Para redirigir a la página de inicio de sesión después de cerrar sesión
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600  # Dos semanas
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+

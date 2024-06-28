@@ -21,7 +21,7 @@ def iniciar_sesion(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, 'Inicio de sesión exitoso')
-            return redirect('home')
+            return redirect('index')
     else:
         form = LoginForm()
     return render(request, 'autenticacion/login.html', {'form': form})

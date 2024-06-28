@@ -1,89 +1,85 @@
 from django.shortcuts import render
-
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 
 def index(request):
-    context={}
+    context = {}
     return render(request, 'tienda/index.html', context)
 
 def acerca(request):
-    context={}
+    context = {}
     return render(request, 'tienda/acerca.html', context)
 
 def admin(request):
-    context={}
+    context = {}
     return render(request, 'tienda/admin.html', context)
 
 def ayuda(request):
-    context={}
+    context = {}
     return render(request, 'tienda/ayuda.html', context)
 
 def carrocompra(request):
-    context={}
+    context = {}
     return render(request, 'tienda/carrocompra.html', context)
 
 def centrodeayuda(request):
-    context={}
+    context = {}
     return render(request, 'tienda/centrodeayuda.html', context)
 
 def cerrar(request):
-    context={}
+    context = {}
     return render(request, 'tienda/cerrar.html', context)
 
 def convensocio(request):
-    context={}
+    context = {}
     return render(request, 'tienda/convensocio.html', context)
 
 def devoluciones(request):
-    context={}
+    context = {}
     return render(request, 'tienda/devoluciones.html', context)
 
 def favoritos(request):
-    context={}
+    context = {}
     return render(request, 'tienda/favoritos.html', context)
 
 def ingresar(request):
-    context={}
+    context = {}
     return render(request, 'tienda/ingresar.html', context)
 
 def inversiones(request):
-    context={}
+    context = {}
     return render(request, 'tienda/inversiones.html', context)
 
 def lanzamientos(request):
-    context={}
+    context = {}
     return render(request, 'tienda/lanzamientos.html', context)
 
 def noticias(request):
-    context={}
+    context = {}
     return render(request, 'tienda/noticias.html', context)
 
 def ofertas(request):
-    context={}
+    context = {}
     return render(request, 'tienda/ofertas.html', context)
-
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def perfil(request):
-    # Lógica de la vista
-    return render(request, 'tienda/perfil.html')
-
-# Aplica el decorador a otras vistas según sea necesario
-
+    context = {
+        'user': request.user  # Pasa el usuario autenticado al contexto
+    }
+    return render(request, 'tienda/perfil.html', context)
 
 def registro(request):
-    context={}
+    context = {}
     return render(request, 'tienda/registro.html', context)
 
 def sustentabilidad(request):
-    context={}
+    context = {}
     return render(request, 'tienda/sustentabilidad.html', context)
 
 def termnsycond(request):
-    context={}
+    context = {}
     return render(request, 'tienda/termnsycond.html', context)
 
 def trabconnos(request):
-    context={}
+    context = {}
     return render(request, 'tienda/trabconnos.html', context)

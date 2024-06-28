@@ -654,3 +654,103 @@ h5{
   font-size: 16px;
   margin: 0 auto;
 }
+
+.custom-margin {
+  margin-bottom: 3rem; /* Puedes ajustar el valor según tus necesidades */
+}
+
+.custom-boton {
+  margin-bottom: 5rem;
+  margin-top: 1em;
+}
+
+/* Estilo para el formulario */
+.form-reg {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Estilo para los elementos de entrada */
+.form-reg input[type="text"],
+.form-reg input[type="email"],
+.form-reg input[type="password"],
+.form-reg textarea,
+.form-reg select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  border-color: #000000;
+  color: #000000;
+}
+
+/* Estilo para el botón */
+.form-reg button {
+  width: 100%;
+  padding: 10px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-reg button:hover {
+  background-color: rgb(37, 155, 72);
+}
+
+.form-reg {
+  background-color: #212529;
+  color: #c7bea0;
+}
+
+/* Estilo para el formulario */
+.ini-sesion {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: center; /* Centra el contenido del formulario */
+}
+
+/* Estilo para los elementos de entrada */
+.ini-sesion input[type="text"],
+.ini-sesion input[type="email"],
+.ini-sesion input[type="password"],
+.ini-sesion textarea,
+.ini-sesion select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #000000;
+  border-color: #000000;
+}
+
+/* Estilo para el botón con clase custom-boton */
+.custom-boton {
+  width: 100%;
+  padding: 10px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-boton:hover {
+  background-color: #4CAF50;
+}
+
+.ini-sesion {
+  background-color: #212529;
+  color: #c7bea0;
+}

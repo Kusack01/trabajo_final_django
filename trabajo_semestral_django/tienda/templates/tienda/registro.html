@@ -10,46 +10,66 @@
     <link rel="stylesheet" href="{% static 'css/zapas.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'index' %}"><img style="width: 2rem;" src="{% static 'img/zapatillas.png' %}" alt="logo"></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link active" style="color: #C7BEA0;" href="{% url 'index' %}">Hogar</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'lanzamientos' %}">Lanzamientos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'ofertas' %}">Ofertas</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'acerca' %}">Acerca</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Más</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'devoluciones' %}">Devoluciones</a>
-                  <a class="dropdown-item" href="{% url 'favoritos' %}">Favoritos</a>
-                  <a class="dropdown-item" href="{% url 'ayuda' %}">Ayuda</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'cerrar' %}">Cerrar sesión</a>
-                </div>
-              </li>
-              <a href="#" id="reloj"></a>
-                <script src="{% static 'js/reloj.js' %}"></script>
-            </ul>
-            <a class="navbar-brand" href="{% url 'perfil' %}"><i class="fa-solid fa-user" style="color: #C7BEA0;"></i></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          </div>
-        </div>
-      </nav>
+  <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}"><img style="width: 2rem;" src="{% static 'img/zapatillas.png' %}" alt="logo"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" style="color: #C7BEA0;" href="{% url 'index' %}">Hogar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lanzamientos' %}">Lanzamientos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'ofertas' %}">Ofertas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'acerca' %}">Acerca</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Más</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'devoluciones' %}">Devoluciones</a>
+              <a class="dropdown-item" href="{% url 'favoritos' %}">Favoritos</a>
+              <a class="dropdown-item" href="{% url 'ayuda' %}">Ayuda</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'cerrar' %}">Cerrar sesión</a>
+            </div>
+          </li>
+          <a href="#" id="reloj"></a>
+            <script src="{% static 'js/reloj.js' %}"></script>
+        </ul>
+        <a class="navbar-brand" href="#"><i class="fa-solid fa-user" style="color: #C7BEA0;"></i></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </ul>
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="navbar-text" style="margin-top: 100px;">
+              Hola, {{ user.username }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'singin' %}">Registrarse</a>
+          </li>
+        {% endif %}
+      </ul>
+      </div>
+    </div>
+  </nav>
   
     <form style="max-width: 30%; margin-top: 3rem;margin-left: 3rem;">
         <div class="mb-3">

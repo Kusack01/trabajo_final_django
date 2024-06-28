@@ -43,14 +43,14 @@
               <a href="#" id="reloj"></a>
                 <script src="{% static 'js/reloj.js' %}"></script>
             </ul>
-            <a class="navbar-brand" href="{% url 'perfil' %}"><i class="fa-solid fa-user" style="color: #C7BEA0;"></i></a>
+            <a class="navbar-brand" href="#"><i class="fa-solid fa-user" style="color: #C7BEA0;"></i></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           </div>
         </div>
     </nav>
-    <form method="post">
+    <form method="post" class="form-reg">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Registrarse</button>

@@ -35,9 +35,8 @@
             <div class="dropdown-menu">
               <a class="dropdown-item" href="{% url 'devoluciones' %}">Devoluciones</a>
               <a class="dropdown-item" href="{% url 'favoritos' %}">Favoritos</a>
-              <a class="dropdown-item" href="{% url 'ayuda' %}">Ayuda</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'cerrar' %}">Cerrar sesión</a>
+              <a class="dropdown-item" href="{% url 'ayuda' %}">Ayuda</a>
             </div>
           </li>
           <a href="#" id="reloj"></a>
@@ -50,8 +49,8 @@
       </ul>
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
-          <li class="nav-item">
-            <span class="navbar-text" style="margin-top: 100px;">
+          <li class="nav-item" style="margin-top: 0.40rem;margin-right: 0.3rem;font-size: 1.05rem;">
+            <span class="navbar-text">
               Hola, {{ user.username }}
             </span>
           </li>

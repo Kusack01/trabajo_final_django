@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/zapas.css' %}">
 </head>
 <body>
+  <!-- navbar -->
   <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'index' %}"><img style="width: 2rem;" src="{% static 'img/zapatillas.png' %}" alt="logo"></a>
@@ -50,8 +51,8 @@
       </ul>
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
-          <li class="nav-item">
-            <span class="navbar-text" style="margin-top: 100px;">
+          <li class="nav-item" style="margin-top: 0.4rem;">
+            <span class="navbar-text">
               Hola, {{ user.username }}
             </span>
           </li>
@@ -70,8 +71,8 @@
       </div>
     </div>
   </nav>
-      <!-- carrusel -->
 
+      <!-- carrusel -->
       <div class="slider-box">
         <ul>
           <li>
@@ -90,99 +91,25 @@
       </div>
 
       <!-- aqui comienzan los productos -->
-      <H3>PARA AGREGAR PRODUCTOS DEBE IR A LA PÁGINA /ADMIN.HTML</H3>
       <h1>Nuestros productos</h1>
       <div class="container-items">
+        {% for producto in productos %}
         <div class="item">
           <figure>
             <img
-              src="{% static 'img/zapas_adidas_nora.avif' %}"
+              src="{{ producto.imagen.url }}"
               alt="producto"
             />
           </figure>
-          <div class="info-product" data-nombre="Adidas Nora Unisex" data-precio="110000" data-stock="10">
-            <h2>Adidas Nora Unisex</h2>
-            <p class="price">$110.000</p>
+          <div class="info-product">
+            <h2>{{ producto.nombre }}</h2>
+            <p class="price">${{ producto.precio }}</p>
             <button class="agregar">Añadir al carrito</button>
           </div>
         </div>
-        <div class="item">
-          <figure>
-            <img
-              src="{% static 'img/zapas_champion.jpg' %}"
-              alt="producto"
-            />
-          </figure>
-          <div class="info-product" data-nombre="Champion Hyper C" data-precio="95000" data-stock="10">
-            <h2>Champion Hyper C</h2>
-            <p class="price">$95.000</p>
-            <button class="agregar">Añadir al carrito</button>
-          </div>
-        </div>
-        <div class="item">
-          <figure>
-            <img
-              src="{% static 'img/zapas_keds.webp' %}"
-              alt="producto"
-            />
-          </figure>
-          <div class="info-product" data-nombre="Keds Jump Kick" data-precio="75000" data-stock="10">
-            <h2>Keds Jump Kick</h2>
-            <p class="price">$75.000</p>
-            <button class="agregar">Añadir al carrito</button>
-          </div>
-        </div>
-        <div class="item">
-          <figure>
-            <img
-              src="{% static 'img/zapas_nike_airmax.webp' %}"
-              alt="producto"
-            />
-          </figure>
-          <div class="info-product" data-nombre="Nike Air Max 90" data-precio="85000" data-stock="10">
-            <h2>Nike Air Max 90</h2>
-            <p class="price">$85.000</p>
-            <button class="agregar">Añadir al carrito</button>
-          </div>
-        </div>
-        <div class="item">
-          <figure>
-            <img
-              src="{% static 'img/SuedeXL.avif' %}"
-              alt="producto"
-            />
-          </figure>
-          <div class="info-product" data-nombre="Puma Suede XL" data-precio="90000" data-stock="10">
-            <h2>Puma Suede XL</h2>
-            <p class="price">$90.000</p>
-            <button class="agregar">Añadir al carrito</button>
-          </div>
-        </div>
-        <div class="item">
-          <figure>
-            <img
-              src="{% static 'img/zapas_underarmour.webp' %}"
-              alt="producto"
-            />
-          </figure>
-          <div class="info-product" data-nombre="Under Armour Essential" data-precio="90000" data-stock="10">
-            <h2>Under Armour Essential</h2>
-            <p class="price">$90.000</p>
-            <button class="agregar">Añadir al carrito</button>
-          </div>
-        </div>
-        <div class="item">
-          <figure>
-            <img src="{% static 'img/zapas_vans_oldskool.webp' %}" alt="producto" />
-          </figure>
-          <div class="info-product" data-nombre="Vans OldSkool" data-precio="90000" data-stock="10">
-            <h2>Vans OldSkool</h2>
-            <p class="price">$90.000</p>
-            <button class="agregar">Añadir al carrito</button>
-          </div>
-        </div>
+        {% endfor %}
       </div>
-        
+
         <div id="productos">
           <div class="producto" data-nombre="Adidas Nora Unisex"></div>
           <div class="producto" data-nombre="Champion Hyper C"></div>
@@ -200,7 +127,6 @@
             <button id="pagar">Pagar</button>
           </div>
         </div>
-        
         <script src="{% static 'js/carrito.js' %}"></script>
         
 

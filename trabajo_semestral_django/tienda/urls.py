@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),  # Página de inicio
@@ -22,4 +24,6 @@ urlpatterns = [
     path('sustentabilidad/', views.sustentabilidad, name='sustentabilidad'),
     path('termnsycond/', views.termnsycond, name='termnsycond'),
     path('trabconnos/', views.trabconnos, name='trabconnos'),
-]
+    path('plantilla/', views.plantilla, name='plantilla'),
+    path('probado/', views.probado, name='probado')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

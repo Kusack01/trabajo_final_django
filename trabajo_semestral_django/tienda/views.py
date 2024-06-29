@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .models import Producto
 
 def index(request):
     context = {}
@@ -83,3 +84,15 @@ def termnsycond(request):
 def trabconnos(request):
     context = {}
     return render(request, 'tienda/trabconnos.html', context)
+
+def index(request):
+    productos = Producto.objects.all()
+    return render(request, 'tienda/index.html', {'productos': productos})
+
+def plantilla(request):
+    context = {}
+    return render(request, 'tienda/plantilla.html', context)
+
+def probado(request):
+    context = {}
+    return render(request, 'tienda/probado.html', context)

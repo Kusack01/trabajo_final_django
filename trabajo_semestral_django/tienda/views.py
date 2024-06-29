@@ -10,9 +10,9 @@ def acerca(request):
     context = {}
     return render(request, 'tienda/acerca.html', context)
 
-def admin(request):
+def administracion(request):
     context = {}
-    return render(request, 'tienda/admin.html', context)
+    return render(request, 'tienda/administracion.html', context)
 
 def ayuda(request):
     context = {}

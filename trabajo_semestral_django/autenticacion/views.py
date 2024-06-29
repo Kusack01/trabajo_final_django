@@ -29,4 +29,4 @@ def iniciar_sesion(request):
 def cerrar_sesion(request):
     logout(request)
     messages.success(request, 'Sesión cerrada exitosamente')
-    return redirect('login')
+    return redirect('cerrar')

@@ -103,11 +103,17 @@
           <div class="info-product">
             <h2>{{ producto.nombre }}</h2>
             <p class="price">${{ producto.precio }}</p>
-            <button class="agregar">Añadir al carrito</button>
+            <p>Stock: {{ producto.stock }}</p>
+            {% if user.is_authenticated %}
+            <button class="agregar" data-producto-id="{{ producto.id }}" data-stock="{{ producto.stock }}">Añadir al carrito</button>
+            {% else %}
+            <p>Inicie sesión para añadir productos<p/>
+            {% endif %}
           </div>
         </div>
         {% endfor %}
       </div>
+
 
         <div id="productos">
           <div class="producto" data-nombre="Adidas Nora Unisex"></div>
@@ -119,13 +125,18 @@
           <div class="producto" data-nombre="Vans OldSkool"></div>
         </div>
         <h1>Carrito de Compras</h1>
+        {% if user.is_authenticated %}
         <div class="fondo-carrito">
           <ul id="carrito"></ul>
           <p id="total">Total: $0</p>
           <div class="boton-pagar">
             <button id="pagar">Pagar</button>
+            <button id="vaciar-carrito">Vaciar Carrito</button>
           </div>
         </div>
+        {% else %}
+        <h4 class="texto">inicie sesión para acceder al carrito</h4>
+        {% endif %}
         <script src="{% static 'js/carrito.js' %}"></script>
         
 

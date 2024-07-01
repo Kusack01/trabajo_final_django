@@ -1,71 +1,53 @@
-console.log("Esta funcionando")
-const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-// Cargar el carrito almacenado al cargar la página
-document.addEventListener('DOMContentLoaded', actualizarCarrito);
-
-document.querySelectorAll('.agregar').forEach(button => {
-    button.addEventListener('click', agregarAlCarrito);
-});
-
-document.getElementById('pagar').addEventListener('click', pagar);
-
-function agregarAlCarrito(event) {
-    const producto = event.target.parentElement;
-    const nombre = producto.dataset.nombre;
-    const precio = parseFloat(producto.dataset.precio);
-    const stock = parseInt(producto.dataset.stock);
-
-    if (stock > 0) {
-        carrito.push({ nombre, precio });
-        producto.dataset.stock = stock - 1;
-        actualizarCarrito();
-    } else {
-        alert('¡Producto agotado!');
-    }
-}
-
-function eliminarDelCarrito(index) {
-    const producto = carrito[index];
-    const item = document.querySelectorAll('.producto');
-    const productoHTML = Array.from(item).find(p => p.dataset.nombre === producto.nombre);
-    const productoInfo = document.querySelector(`.info-product[data-nombre="${producto.nombre}"]`);
-
-    if (productoHTML && productoInfo) {
-        productoHTML.dataset.stock = parseInt(productoHTML.dataset.stock) + 1;
-        productoInfo.dataset.stock = parseInt(productoInfo.dataset.stock) + 1;
-    }
-
-    carrito.splice(index, 1);
-    actualizarCarrito();
-}
-
-function actualizarCarrito() {
-    const carritoElemento = document.getElementById('carrito');
-    carritoElemento.innerHTML = '';
-
+document.addEventListener('DOMContentLoaded', () => {
+    const botonesAgregar = document.querySelectorAll('.agregar');
+    const carrito = document.getElementById('carrito');
+    const totalElement = document.getElementById('total');
+    const botonVaciarCarrito = document.getElementById('vaciar-carrito');
     let total = 0;
-    carrito.forEach((producto, index) => {
-        total += producto.precio;
-        const li = document.createElement('li');
-        li.textContent = `${producto.nombre} - $${producto.precio}`;
-        const botonEliminar = document.createElement('button');
-        botonEliminar.textContent = 'Eliminar';
-        botonEliminar.addEventListener('click', () => eliminarDelCarrito(index));
-        li.appendChild(botonEliminar);
-        carritoElemento.appendChild(li);
+    let productosEnCarrito = {};
+  
+    botonesAgregar.forEach(boton => {
+      boton.addEventListener('click', () => {
+        const productoId = boton.getAttribute('data-producto-id');
+        const stock = parseInt(boton.getAttribute('data-stock'), 10);
+        const nombreProducto = boton.closest('.info-product').querySelector('h2').innerText;
+        const precioProducto = parseFloat(boton.closest('.info-product').querySelector('.price').innerText.replace('$', ''));
+  
+        if (!productosEnCarrito[productoId]) {
+          productosEnCarrito[productoId] = { cantidad: 0, nombre: nombreProducto, precio: precioProducto, stock: stock };
+        }
+  
+        if (productosEnCarrito[productoId].cantidad < stock) {
+          productosEnCarrito[productoId].cantidad += 1;
+          
+          const li = document.createElement('li');
+          li.innerText = `${nombreProducto} - $${precioProducto.toFixed(2)}`;
+          li.setAttribute('data-producto-id', productoId);
+          const botonEliminar = document.createElement('button');
+          botonEliminar.innerText = 'Eliminar';
+          li.appendChild(botonEliminar);
+          carrito.appendChild(li);
+          
+          total += precioProducto;
+          totalElement.innerText = `Total: $${total.toFixed(2)}`;
+  
+          botonEliminar.addEventListener('click', () => {
+            carrito.removeChild(li);
+            total -= precioProducto;
+            totalElement.innerText = `Total: $${total.toFixed(2)}`;
+            productosEnCarrito[productoId].cantidad -= 1;
+          });
+        } else {
+          alert('No hay suficiente stock disponible para agregar más de este producto.');
+        }
+      });
     });
-
-    document.getElementById('total').textContent = `Total: $${total}`;
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-}
-
-function pagar() {
-    if (carrito.length === 0) {
-        alert('El carrito está vacío.');
-    } else {
-        alert('Gracias por tu compra. Total a pagar: $' + document.getElementById('total').textContent.split('$')[1]);
-        carrito.length = 0; // Vaciar el carrito
-        actualizarCarrito();
-    }
-}
+  
+    botonVaciarCarrito.addEventListener('click', () => {
+      carrito.innerHTML = '';
+      total = 0;
+      totalElement.innerText = `Total: $${total.toFixed(2)}`;
+      productosEnCarrito = {};
+    });
+  });
+  

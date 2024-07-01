@@ -1,10 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Producto
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .models import Producto, Carrito
 
 def index(request):
-    context = {}
-    return render(request, 'tienda/index.html', context)
+    productos = Producto.objects.all()
+    carrito = Carrito.objects.filter(usuario=request.user)
+    context = {
+        'productos': productos,
+        'carrito': carrito,
+    }
+    return render(request, 'index.html', context)
 
 def acerca(request):
     context = {}
@@ -96,3 +104,21 @@ def plantilla(request):
 def probado(request):
     context = {}
     return render(request, 'tienda/probado.html', context)
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .models import Producto, Carrito
+
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if producto.stock > 0:
+        carrito_item, created = Carrito.objects.get_or_create(usuario=request.user, producto=producto)
+        carrito_item.cantidad += 1
+        producto.stock -= 1
+        carrito_item.save()
+        producto.save()
+        messages.success(request, 'Producto agregado al carrito.')
+    else:
+        messages.error(request, 'No hay suficiente stock para este producto.')
+    return redirect('index')  # Redirigir a la página principal
+

@@ -754,3 +754,9 @@ h5{
   background-color: #212529;
   color: #c7bea0;
 }
+
+.texto {
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}

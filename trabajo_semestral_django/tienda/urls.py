@@ -26,4 +26,5 @@ urlpatterns = [
     path('trabconnos/', views.trabconnos, name='trabconnos'),
     path('plantilla/', views.plantilla, name='plantilla'),
     path('agregar_al_carrito/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
+    path('pagar/', views.pagar, name='pagar'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

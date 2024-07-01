@@ -1,9 +1,14 @@
+import json
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Producto
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Producto, Carrito
+from .models import Carrito
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
 
 def index(request):
     productos = Producto.objects.all()
@@ -105,10 +110,6 @@ def probado(request):
     context = {}
     return render(request, 'tienda/probado.html', context)
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from .models import Producto, Carrito
-
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     if producto.stock > 0:
@@ -122,3 +123,17 @@ def agregar_al_carrito(request, producto_id):
         messages.error(request, 'No hay suficiente stock para este producto.')
     return redirect('index')  # Redirigir a la página principal
 
+@csrf_exempt
+def pagar(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        productos = data.get('productos', {})
+
+        for producto_id, producto_data in productos.items():
+            producto = Producto.objects.get(id=producto_id)
+            producto.stock -= producto_data['cantidad']
+            producto.save()
+
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'fail'}, status=400)

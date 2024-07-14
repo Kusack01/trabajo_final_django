@@ -34,7 +34,10 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Más</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="{% url 'devoluciones' %}">Devoluciones</a>
+              {% if user.is_authenticated %}
               <a class="dropdown-item" href="{% url 'favoritos' %}">Favoritos</a>
+              {% else %}
+              {% endif %}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'ayuda' %}">Ayuda</a>
             </div>
@@ -69,8 +72,8 @@
       </div>
     </div>
   </nav>
-    <h1>Las mejores ofertas</h1>
 
+    <h1>Las mejores ofertas</h1>
     <p>Con hasta 30% de descuento en los siguientes productos</p>
 
     <!-- aqui estan las ofertas-->
@@ -91,6 +94,10 @@
           <p>Stock: {{ producto.stock }}</p>
           {% if user.is_authenticated %}
           <button class="agregar" data-producto-id="{{ producto.id }}" data-stock="{{ producto.stock }}">Añadir al carrito</button>
+          <form action="{% url 'agregar_a_favoritos' producto.id %}" method="post" style="display: inline; margin-left: 1.8rem;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Añadir a Favoritos</button>
+          </form>
           {% else %}
           <p>Inicie sesión para añadir productos<p/>
           {% endif %}

@@ -34,7 +34,10 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Más</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="{% url 'devoluciones' %}">Devoluciones</a>
+              {% if user.is_authenticated %}
               <a class="dropdown-item" href="{% url 'favoritos' %}">Favoritos</a>
+              {% else %}
+              {% endif %}
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'ayuda' %}">Ayuda</a>
             </div>
@@ -70,28 +73,33 @@
     </div>
   </nav>
     <h1>Nuestros últimos lanzamientos</h1>
-      <div class="container-items">
-        {% for producto in productos %}
-        <div class="item">
-          <figure>
-            <img
-              src="{{ producto.imagen.url }}"
-              alt="producto"
-            />
-          </figure>
-          <div class="info-product">
-            <h2>{{ producto.nombre }}</h2>
-            <p class="price">${{ producto.precio }}</p>
-            <p>Stock: {{ producto.stock }}</p>
-            {% if user.is_authenticated %}
-            <button class="agregar" data-producto-id="{{ producto.id }}" data-stock="{{ producto.stock }}">Añadir al carrito</button>
-            {% else %}
-            <p>Inicie sesión para añadir productos<p/>
-            {% endif %}
-          </div>
+    <div class="container-items">
+      {% for producto in productos %}
+      <div class="item">
+        <figure>
+          <img
+            src="{{ producto.imagen.url }}"
+            alt="producto"
+          />
+        </figure>
+        <div class="info-product">
+          <h2>{{ producto.nombre }}</h2>
+          <p class="price">${{ producto.precio }}</p>
+          <p>Stock: {{ producto.stock }}</p>
+          {% if user.is_authenticated %}
+          <button class="agregar" data-producto-id="{{ producto.id }}" data-stock="{{ producto.stock }}">Añadir al carrito</button>
+          <form action="{% url 'agregar_a_favoritos' producto.id %}" method="post" style="display: inline; margin-left: 1.8rem;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Añadir a Favoritos</button>
+          </form>
+          {% else %}
+          <p>Inicie sesión para añadir productos<p/>
+          {% endif %}
         </div>
-        {% endfor %}
       </div>
+      {% endfor %}
+    </div>
+
       <h1>Carrito de Compras</h1>
         {% if user.is_authenticated %}
         <div class="fondo-carrito">

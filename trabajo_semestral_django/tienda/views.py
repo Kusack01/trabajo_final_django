@@ -23,8 +23,8 @@ def acerca(request):
     return render(request, 'tienda/acerca.html', context)
 
 def administracion(request):
-    context = {}
-    return render(request, 'tienda/administracion.html', context)
+    productos = Producto.objects.all()
+    return render(request, 'tienda/administracion.html', {'productos': productos})
 
 def ayuda(request):
     context = {}

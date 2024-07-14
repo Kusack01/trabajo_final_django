@@ -5,37 +5,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const botonVaciarCarrito = document.getElementById('vaciar-carrito');
   const botonPagar = document.getElementById('pagar');
   let total = 0;
-  let productosEnCarrito = JSON.parse(localStorage.getItem('productosEnCarrito')) || {};
+  let usuarioActual = obtenerUsuarioActual();
+  let productosEnCarrito = obtenerProductosEnCarrito(usuarioActual);
+
+  function obtenerUsuarioActual() {
+    // Implementa la lógica para obtener el usuario actual
+    // Puede ser a través de cookies, tokens de sesión, etc.
+    // Aquí te muestro un ejemplo básico con cookies:
+    const usuario = getCookie('usuario'); // Asumiendo que 'usuario' es un identificador único del usuario
+    return usuario;
+  }
+
+  function obtenerProductosEnCarrito(usuario) {
+    const key = `productosEnCarrito_${usuario}`;
+    return JSON.parse(localStorage.getItem(key)) || {};
+  }
+  
 
   function actualizarCarrito() {
+    const key = `productosEnCarrito_${usuarioActual}`;
     carrito.innerHTML = '';
     total = 0;
     for (const productoId in productosEnCarrito) {
       const producto = productosEnCarrito[productoId];
-      for (let i = 0; i < producto.cantidad; i++) {
-        const li = document.createElement('li');
-        li.innerText = `${producto.nombre} - $${producto.precio.toFixed(2)}`;
-        li.setAttribute('data-producto-id', productoId);
-        const botonEliminar = document.createElement('button');
-        botonEliminar.innerText = 'Eliminar';
-        li.appendChild(botonEliminar);
-        carrito.appendChild(li);
+      const li = document.createElement('li');
+      li.innerText = `${producto.nombre} - $${producto.precio.toFixed(2)}`;
+      li.setAttribute('data-producto-id', productoId);
+      const botonEliminar = document.createElement('button');
+      botonEliminar.innerText = 'Eliminar';
+      li.appendChild(botonEliminar);
+      carrito.appendChild(li);
 
-        total += producto.precio;
+      total += producto.precio * producto.cantidad;
 
-        botonEliminar.addEventListener('click', () => {
-          carrito.removeChild(li);
-          total -= producto.precio;
-          totalElement.innerText = `Total: $${total.toFixed(2)}`;
-          productosEnCarrito[productoId].cantidad -= 1;
-          if (productosEnCarrito[productoId].cantidad === 0) {
-            delete productosEnCarrito[productoId];
-          }
-          localStorage.setItem('productosEnCarrito', JSON.stringify(productosEnCarrito));
-        });
-      }
+      botonEliminar.addEventListener('click', () => {
+        total -= producto.precio * producto.cantidad;
+        totalElement.innerText = `Total: $${total.toFixed(2)}`;
+        producto.cantidad -= 1;
+        if (producto.cantidad === 0) {
+          delete productosEnCarrito[productoId];
+        }
+        localStorage.setItem(key, JSON.stringify(productosEnCarrito));
+        actualizarCarrito();
+      });
     }
     totalElement.innerText = `Total: $${total.toFixed(2)}`;
+  }
+
+  function guardarProductosEnCarrito(usuario, productosEnCarrito) {
+    const key = `productosEnCarrito_${usuario}`;
+    localStorage.setItem(key, JSON.stringify(productosEnCarrito));
   }
 
   actualizarCarrito();
@@ -48,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const precioProducto = parseFloat(boton.closest('.info-product').querySelector('.price').innerText.replace('$', ''));
 
       if (!productosEnCarrito[productoId]) {
-        productosEnCarrito[productoId] = { cantidad: 0, nombre: nombreProducto, precio: precioProducto, stock: stock };
+        productosEnCarrito[productoId] = { cantidad: 0, nombre: nombreProducto, precio: precioProducto };
       }
 
       if (productosEnCarrito[productoId].cantidad < stock) {
         productosEnCarrito[productoId].cantidad += 1;
         actualizarCarrito();
-        localStorage.setItem('productosEnCarrito', JSON.stringify(productosEnCarrito));
+        guardarProductosEnCarrito(usuarioActual, productosEnCarrito);
       } else {
         alert('No hay suficiente stock disponible para agregar más de este producto.');
       }
@@ -66,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     total = 0;
     totalElement.innerText = `Total: $${total.toFixed(2)}`;
     productosEnCarrito = {};
-    localStorage.setItem('productosEnCarrito', JSON.stringify(productosEnCarrito));
+    guardarProductosEnCarrito(usuarioActual, productosEnCarrito);
   });
 
   botonPagar.addEventListener('click', async () => {
@@ -90,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         total = 0;
         totalElement.innerText = `Total: $${total.toFixed(2)}`;
         productosEnCarrito = {};
-        localStorage.removeItem('productosEnCarrito');
+        localStorage.removeItem(`productosEnCarrito_${usuarioActual}`);
         alert('Gracias por su compra');
         window.location.reload();
       } else {

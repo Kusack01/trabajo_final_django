@@ -30,8 +30,12 @@ def ayuda(request):
     context = {}
     return render(request, 'tienda/ayuda.html', context)
 
+@login_required
 def carrocompra(request):
-    context = {}
+    carrito = Carrito.objects.filter(usuario=request.user)
+    context = {
+        'carrito': carrito,
+    }
     return render(request, 'tienda/carrocompra.html', context)
 
 def centrodeayuda(request):
@@ -109,18 +113,16 @@ def probado(request):
     context = {}
     return render(request, 'tienda/probado.html', context)
 
+@login_required
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
-    if producto.stock > 0:
-        carrito_item, created = Carrito.objects.get_or_create(usuario=request.user, producto=producto)
-        carrito_item.cantidad += 1
-        producto.stock -= 1
-        carrito_item.save()
-        producto.save()
-        messages.success(request, 'Producto agregado al carrito.')
-    else:
-        messages.error(request, 'No hay suficiente stock para este producto.')
-    return redirect('index')  # Redirigir a la página principal
+    carrito_item, created = Carrito.objects.get_or_create(usuario=request.user, producto=producto)
+    carrito_item.cantidad += 1
+    producto.stock -= 1
+    carrito_item.save()
+    producto.save()
+    messages.success(request, 'Producto agregado al carrito.')
+    return redirect('index')
 
 @csrf_exempt
 def pagar(request):
@@ -154,3 +156,9 @@ def eliminar_de_favoritos(request, producto_id):
     favorito = Favorito.objects.filter(usuario=request.user, producto=producto)
     favorito.delete()
     return redirect('favoritos')
+
+@login_required
+def vaciar_carrito(request):
+    Carrito.objects.filter(usuario=request.user).delete()
+    messages.success(request, 'Carrito vaciado.')
+    return redirect('carrocompra')

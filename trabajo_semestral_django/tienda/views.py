@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .models import Producto
+from .models import Producto, Favorito
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from .models import Carrito
@@ -136,3 +136,21 @@ def pagar(request):
         return JsonResponse({'status': 'success'})
 
     return JsonResponse({'status': 'fail'}, status=400)
+
+@login_required
+def favoritos(request):
+    favoritos = Favorito.objects.filter(usuario=request.user)
+    return render(request, 'tienda/favoritos.html', {'favoritos': favoritos})
+
+@login_required
+def agregar_a_favoritos(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    Favorito.objects.get_or_create(usuario=request.user, producto=producto)
+    return redirect('favoritos')
+
+@login_required
+def eliminar_de_favoritos(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    favorito = Favorito.objects.filter(usuario=request.user, producto=producto)
+    favorito.delete()
+    return redirect('favoritos')

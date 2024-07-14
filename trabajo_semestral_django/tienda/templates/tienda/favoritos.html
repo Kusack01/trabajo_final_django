@@ -70,49 +70,32 @@
     </div>
   </nav>
   <!--Aqui comienza el contenido-->
-    <h1>Favoritos</h1>
-    <p>Aquí están tus productos favoritos</p>
-    <div class="container-items">
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_adidas_nora.avif' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Adidas Nora Unisex</h2>
-          <p class="price">$110.000</p>
-          <button>Añadir al carrito</button>
-        </div>
-      </div>
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_champion.jpg' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Champion Hyper C</h2>
-          <p class="price">$95.000</p>
-          <button>Añadir al carrito</button>
-        </div>
-      </div>
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_nike_airmax.webp' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Nike Air Max 90</h2>
-          <p class="price">$85.000</p>
-          <button>Añadir al carrito</button>
-        </div>
+  <h1>Favoritos</h1>
+  <p>Aquí están tus productos favoritos</p>
+  <div class="container-items">
+    {% for favorito in favoritos %}
+    <div class="item">
+      <figure>
+        <img src="{{ favorito.producto.imagen.url }}" alt="producto" />
+      </figure>
+      <div class="info-product">
+        <h2>{{ favorito.producto.nombre }}</h2>
+        <p class="price">${{ favorito.producto.precio }}</p>
+        <p>{{ favorito.producto.descripcion }}</p>
+        {% if user.is_authenticated %}
+        <form action="{% url 'eliminar_de_favoritos' favorito.producto.id %}" method="post" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Eliminar de Favoritos</button>
+        </form>
+        {% else %}
+        <p>Inicie sesión para gestionar tus favoritos<p/>
+        {% endif %}
       </div>
     </div>
+    {% empty %}
+    <p>No tienes productos en tus favoritos.</p>
+    {% endfor %}
+  </div>
 
     <!-- aqui comienza el footer -->
     <footer>

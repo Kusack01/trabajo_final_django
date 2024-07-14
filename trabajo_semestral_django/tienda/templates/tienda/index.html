@@ -106,6 +106,10 @@
             <p>Stock: {{ producto.stock }}</p>
             {% if user.is_authenticated %}
             <button class="agregar" data-producto-id="{{ producto.id }}" data-stock="{{ producto.stock }}">Añadir al carrito</button>
+            <form action="{% url 'agregar_a_favoritos' producto.id %}" method="post" style="display: inline; margin-left: 1.8rem;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-warning">Añadir a Favoritos</button>
+            </form>
             {% else %}
             <p>Inicie sesión para añadir productos<p/>
             {% endif %}
@@ -130,11 +134,12 @@
         {% endif %}
         <script src="{% static 'js/carrito.js' %}"></script>
         
-
+      <!--API CHISTE$-->
       <h5>Chiste del Día</h5>
       <div id="chiste"></div>
       <script src="{% static 'js/chistes_api.js' %}"></script>
-
+      
+    <!--FOOTER-->
     <footer>
         <div class="footer-container">
           <div class="footer-info">

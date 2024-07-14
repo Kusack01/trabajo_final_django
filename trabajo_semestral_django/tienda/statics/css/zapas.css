@@ -59,6 +59,14 @@ body {
   cursor: pointer;
 }
 
+.info-product button:hover {
+  background-color: #1ED760;
+}
+
+.info-product .btn-warning:hover {
+  background-color: #FFCA2C;
+}
+
 @media screen and (max-width: 768px) {
   .container-items {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));

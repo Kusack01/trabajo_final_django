@@ -2,12 +2,11 @@ import json
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Producto
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from .models import Carrito
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
 
 
 def index(request):
@@ -64,7 +63,7 @@ def inversiones(request):
     return render(request, 'tienda/inversiones.html', context)
 
 def lanzamientos(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(descripcion__icontains='lanzamiento')
     return render(request, 'tienda/lanzamientos.html', {'productos': productos})
 
 def noticias(request):
@@ -72,7 +71,7 @@ def noticias(request):
     return render(request, 'tienda/noticias.html', context)
 
 def ofertas(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(descripcion__icontains='oferta')
     return render(request, 'tienda/ofertas.html', {'productos': productos})
 
 @login_required

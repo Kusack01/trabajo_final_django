@@ -70,75 +70,42 @@
     </div>
   </nav>
     <h1>Nuestros últimos lanzamientos</h1>
-    
-    <!-- aqui comienzan los productos -->
-    <div class="container-items" style="margin: 3rem;">
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/Zapa_adidas.avif' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Adidas Running P</h2>
-          <p class="price">$37.000</p>
-          <button>Añadir al carrito</button>
+      <div class="container-items">
+        {% for producto in productos %}
+        <div class="item">
+          <figure>
+            <img
+              src="{{ producto.imagen.url }}"
+              alt="producto"
+            />
+          </figure>
+          <div class="info-product">
+            <h2>{{ producto.nombre }}</h2>
+            <p class="price">${{ producto.precio }}</p>
+            <p>Stock: {{ producto.stock }}</p>
+            {% if user.is_authenticated %}
+            <button class="agregar" data-producto-id="{{ producto.id }}" data-stock="{{ producto.stock }}">Añadir al carrito</button>
+            {% else %}
+            <p>Inicie sesión para añadir productos<p/>
+            {% endif %}
+          </div>
         </div>
+        {% endfor %}
       </div>
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_skate.jpg' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Circa TRE Black</h2>
-          <p class="price">$41.000</p>
-          <button>Añadir al carrito</button>
+      <h1>Carrito de Compras</h1>
+        {% if user.is_authenticated %}
+        <div class="fondo-carrito">
+          <ul id="carrito"></ul>
+          <p id="total">Total: $0</p>
+          <div class="boton-pagar">
+            <button id="pagar">Pagar</button>
+            <button id="vaciar-carrito">Vaciar Carrito</button>
+          </div>
         </div>
-      </div>
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_trail.webp' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Adidas Eastrail 2.0</h2>
-          <p class="price">$42.000</p>
-          <button>Añadir al carrito</button>
-        </div>
-      </div>
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_jordan.png' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Jordan Max Aura 5</h2>
-          <p class="price">$35.000</p>
-          <button>Añadir al carrito</button>
-        </div>
-      </div>
-      <div class="item">
-        <figure>
-          <img
-            src="{% static 'img/zapas_airmax_negras.jpg' %}"
-            alt="producto"
-          />
-        </figure>
-        <div class="info-product">
-          <h2>Nike Air Max Sc Black</h2>
-          <p class="price">$50.000</p>
-          <button>Añadir al carrito</button>
-        </div>
-      </div>
-    </div>
+        {% else %}
+        <h4 class="texto">inicie sesión para acceder al carrito</h4>
+        {% endif %}
+        <script src="{% static 'js/carrito.js' %}"></script>
 
     <!-- aqui comienza el footer -->
     <footer>

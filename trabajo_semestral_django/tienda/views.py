@@ -64,16 +64,16 @@ def inversiones(request):
     return render(request, 'tienda/inversiones.html', context)
 
 def lanzamientos(request):
-    context = {}
-    return render(request, 'tienda/lanzamientos.html', context)
+    productos = Producto.objects.all()
+    return render(request, 'tienda/lanzamientos.html', {'productos': productos})
 
 def noticias(request):
     context = {}
     return render(request, 'tienda/noticias.html', context)
 
 def ofertas(request):
-    context = {}
-    return render(request, 'tienda/ofertas.html', context)
+    productos = Producto.objects.all()
+    return render(request, 'tienda/ofertas.html', {'productos': productos})
 
 @login_required
 def perfil(request):

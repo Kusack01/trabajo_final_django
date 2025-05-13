@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     'tienda',
     'crispy_forms',
     'crispy_bootstrap4',
-    'autenticacion',  # Agrega esta línea
+    'autenticacion', 
+    
 ]
+
+
 
 
 MIDDLEWARE = [
